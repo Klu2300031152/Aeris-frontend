@@ -266,7 +266,7 @@ html, body {
   transform: scale(1.2);
 }
   
-  /* Product Grid */
+/* Product Grid */
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
