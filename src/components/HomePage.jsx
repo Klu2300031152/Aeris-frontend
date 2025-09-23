@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { logout } from "../services/authService";
+import { logout, getActiveUser } from "../services/authService";
 import { FaUserCircle } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import "./style.css";
@@ -11,6 +11,7 @@ const HomePage = () => {
   const location = useLocation();
   const { cartItems } = useCart();
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+  const [activeUser, setActiveUser] = useState(getActiveUser());
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
   // Check if we're on the home page (not a category page)
@@ -19,6 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     const handleStorageChange = () => {
       setIsAuthenticated(!!localStorage.getItem("token"));
+      setActiveUser(getActiveUser());
     };
 
     window.addEventListener("storage", handleStorageChange);
@@ -56,15 +58,16 @@ const HomePage = () => {
                   size={28}
                   onClick={toggleDropdown}
                 />
-                         {dropdownOpen && (
-                           <div className="dropdown">
-                             <Link to="/cart" onClick={() => setDropdownOpen(false)}>
-                               Cart ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
-                             </Link>
-                             <Link to="/orders" onClick={() => setDropdownOpen(false)}>Orders</Link>
-                             <button onClick={handleLogout}>Logout</button>
-                           </div>
-                         )}
+                {dropdownOpen && (
+                  <div className="dropdown">
+                    {activeUser && <div className="dropdown-active">Signed in as: {activeUser}</div>}
+                    <Link to="/cart" onClick={() => setDropdownOpen(false)}>
+                      Cart ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
+                    </Link>
+                    <Link to="/orders" onClick={() => setDropdownOpen(false)}>Orders</Link>
+                    <button onClick={handleLogout}>Logout</button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="auth-buttons">
