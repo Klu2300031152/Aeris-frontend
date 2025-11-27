@@ -20,8 +20,7 @@ function App() {
   
   return (
     <>
-      {/* basename is critical for GitHub Pages */}
-      <Router basename="/Aeris-frontend">
+      <Router>
         <Routes>
           <Route path="/" element={<HomePage />}>
             <Route index element={<AboutUs />} />
@@ -44,4 +43,5 @@ function App() {
   )
 }
 
-export default App
+export default App;
+
