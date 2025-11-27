@@ -20,7 +20,7 @@ function App() {
   
   return (
     <>
-      <Router basename="/">
+      <Router basename="/Aeris-frontend/">
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />}>
